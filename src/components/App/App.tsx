@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchContacts } from "redux/operations";
-import { getError, getIsLoading, getContacts } from "redux/selectors";
-
 import { Jelly } from "@uiball/loaders";
 
 import ContactForm from "../ContactForm/ContactForm";
 import Filter from "../Filter/Filter";
 import ContactList from "../ContactList/ContactList";
+
+import { getContacts, getError, getIsLoading } from "../../redux/selectors";
+import { fetchContacts } from "../../redux/operations";
 
 import css from "./App.module.scss";
 
