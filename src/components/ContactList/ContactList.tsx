@@ -2,24 +2,29 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Notify } from "notiflix";
 
-import { getContacts, getFilter } from "../../redux/selectors";
+import { selectContacts, selectFilter } from "../../redux/selectors";
 import { deleteContact } from "../../redux/operations";
+
+import { AppDispatch } from "../../@types/types";
 
 import css from "./ContactList.module.scss";
 
 const ContactList = () => {
-	const contacts = useSelector(getContacts);
-	const filter = useSelector(getFilter);
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
-	const onDeleteContact = id => {
+	const contacts = useSelector(selectContacts);
+	const filter = useSelector(selectFilter);
+
+	const onDeleteContact = (id: string) => {
 		Notify.failure("Contact deleted!");
 		dispatch(deleteContact(id));
 	};
 
+	console.log("contacts.length", contacts.length);
+
 	return (
 		<ul className={css.list}>
-			{contacts?.length ? (
+			{contacts?.length &&
 				contacts
 					.filter(({ name }) => name.toLowerCase().includes(filter.toLowerCase()))
 					.map(({ name, phone, id }) => (
@@ -34,10 +39,7 @@ const ContactList = () => {
 								Delete
 							</button>
 						</li>
-					))
-			) : (
-				<p className={css.message}>You have no contacts yet!</p>
-			)}
+					))}
 		</ul>
 	);
 };

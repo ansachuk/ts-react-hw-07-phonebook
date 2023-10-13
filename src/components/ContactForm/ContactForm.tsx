@@ -1,22 +1,25 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Notify } from "notiflix";
 
+import { AppDispatch, AppState } from "../../@types/types";
+
 import { addContact } from "../../redux/operations";
+
 import css from "./ContactForm.module.scss";
 
 export default function ContactForm() {
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState("");
-	const contacts = useSelector(({ contacts }) => contacts.items);
-	const dispatch = useDispatch();
+	const contacts = useSelector(({ contacts }: AppState) => contacts.items);
+	const dispatch = useDispatch<AppDispatch>();
 
 	const resetState = () => {
 		setName("");
 		setPhone("");
 	};
 
-	const onInputChange = e => {
+	const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.currentTarget;
 
 		switch (name) {
@@ -33,7 +36,7 @@ export default function ContactForm() {
 		}
 	};
 
-	const onFormSubmit = e => {
+	const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const hasSameContactName = contacts.some(contact => contact.name === name);
@@ -51,7 +54,7 @@ export default function ContactForm() {
 
 		Notify.success("Contact has added!");
 		resetState();
-		e.currentTarget.blur();
+		e.currentTarget?.blur();
 	};
 
 	return (

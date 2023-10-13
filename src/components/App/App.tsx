@@ -7,17 +7,19 @@ import ContactForm from "../ContactForm/ContactForm";
 import Filter from "../Filter/Filter";
 import ContactList from "../ContactList/ContactList";
 
-import { getContacts, getError, getIsLoading } from "../../redux/selectors";
+import { selectContacts, selectError, selectIsLoading } from "../../redux/selectors";
 import { fetchContacts } from "../../redux/operations";
+
+import { AppDispatch } from "../../@types/types";
 
 import css from "./App.module.scss";
 
 export function App() {
-	const disp = useDispatch();
+	const disp = useDispatch<AppDispatch>();
 
-	const contacts = useSelector(getContacts);
-	const isLoading = useSelector(getIsLoading);
-	const error = useSelector(getError);
+	const contacts = useSelector(selectContacts);
+	const isLoading = useSelector(selectIsLoading);
+	const error = useSelector(selectError);
 
 	useEffect(() => {
 		disp(fetchContacts());
@@ -32,16 +34,16 @@ export function App() {
 				<>
 					{isLoading === true ? (
 						<div className={css.backdrop} aria-live="polite" aria-busy={isLoading}>
-							<Jelly color="rgb(24, 166, 166)" size={200} speed={0.6} />
+							<Jelly color="#18a6a6" size={200} speed={0.6} />
 						</div>
+					) : contacts.length > 0 ? (
+						<>
+							<h2 className={css.subtitle}>Contacts</h2>
+							<Filter />
+							<ContactList />
+						</>
 					) : (
-						contacts.length > 0 && (
-							<>
-								<h2 className={css.subtitle}>Contacts</h2>
-								<Filter />
-								<ContactList />
-							</>
-						)
+						<p className={css.message}>You have no contacts yet!</p>
 					)}
 				</>
 			)}

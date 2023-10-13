@@ -19,7 +19,7 @@ const fetchContacts = createAsyncThunk(`${stateDefaultName}/fetchAll`, async (_,
 
 const addContact = createAsyncThunk(
 	`${stateDefaultName}/addTask`,
-	async ({ name, phone }: Omit<Contact, "id">, { rejectWithValue }): Promise<Contact> => {
+	async ({ name, phone }: Omit<Contact, "id" | "createdAt">, { rejectWithValue }): Promise<Contact> => {
 		try {
 			const { data } = await axios.post(stateDefaultName, { name, phone });
 			return data;
@@ -29,7 +29,7 @@ const addContact = createAsyncThunk(
 	},
 );
 
-const deleteContact = createAsyncThunk(`${stateDefaultName}/deleteContact`, async (id, { rejectWithValue }): Promise<Contact> => {
+const deleteContact = createAsyncThunk(`${stateDefaultName}/deleteContact`, async (id: string, { rejectWithValue }): Promise<Contact> => {
 	try {
 		const { data } = await axios.delete(`${stateDefaultName}/${id}`);
 		return data;
