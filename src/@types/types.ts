@@ -13,6 +13,8 @@ export type ContactsState = {
 	error: Error | null;
 };
 
+export type FilterState = { filter: "" };
+
 export type AppState = {
 	contacts: ContactsState;
 	filter: string;

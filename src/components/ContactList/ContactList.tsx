@@ -20,8 +20,6 @@ const ContactList = () => {
 		dispatch(deleteContact(id));
 	};
 
-	console.log("contacts.length", contacts.length);
-
 	return (
 		<ul className={css.list}>
 			{contacts?.length &&
